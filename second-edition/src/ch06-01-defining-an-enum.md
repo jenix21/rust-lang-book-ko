@@ -41,9 +41,9 @@ let four = IpAddrKind::V4;
 let six = IpAddrKind::V6;
 ```
 
-열거형의 variants 는 열거형을 정의한 식별자에 의해 이름 공간이 생기며, 두개의 콜론을 사용하여 둘을 
-구분할 수 있습니다. `IpAddrKind::V4` 와 `IpAddrKind::V6` 의 값은 동일한 타입이기
-때문에, 이 방식이 유용 합니다: `IpAddrKind`
+열거형의 variants 는 열거형을 정의한 식별자에 의해 이름 공간이 생기며, 두개의 
+콜론을 사용하여 둘을 구분할 수 있습니다. `IpAddrKind::V4` 와 `IpAddrKind::V6` 의
+값은 동일한 타입이기 때문에, 이 방식이 유용 합니다: `IpAddrKind`
 이제 `IpAddrKind` 타입을 인자로 받는 함수를 정의할 수 있습니다:
 
 ```rust
@@ -69,9 +69,10 @@ route(IpAddrKind::V4);
 route(IpAddrKind::V6);
 ```
 
-열거형을 사용하면 잇점이 더 있습니다. IP 주소 타입에 대해 더 생각해 볼 때, 지금으로써는 실제 IP 주소 
-*데이터*를 저장할 방법이 없습니다; 단지 어떤 *종류* 인지만 알 뿐 입니다. 5장에서 구조체에 대해 방금
-공부 했다고 한다면, 이 문제를 Listing 6-1 에서 보여지는 것 처럼 풀려고 할 것 입니다:
+열거형을 사용하면 잇점이 더 있습니다. IP 주소 타입에 대해 더 생각해 볼 때, 
+지금으로써는 실제 IP 주소 *데이터*를 저장할 방법이 없습니다; 단지 어떤 *종류* 
+인지만 알 뿐 입니다. 5장에서 구조체에 대해 방금 공부 했다고 한다면, 이 문제를 
+Listing 6-1 에서 보여지는 것 처럼 풀려고 할 것 입니다:
 
 ```rust
 enum IpAddrKind {
@@ -95,19 +96,22 @@ let loopback = IpAddr {
 };
 ```
 
-<span class="caption">Listing 6-1: `struct` 를 사용해서 IP 주소의 데이터와 `IpAddrKind` 
-variant 저장하기</span>
+<span class="caption">Listing 6-1: `struct` 를 사용해서 IP 주소의 데이터와 
+`IpAddrKind` variant 저장하기</span>
 
-여기서 두 개의 필드를 갖는 `IpAddr` 를 정의 했습니다: `IpAddrKind` 타입(이전에 정의한 열거형)인 
-`kind` 필드와 `String` 타입인 `address` 필드 입니다. 구조체에 대한 두 개의 인스턴스가 있습니다.
-첫번째 `home` 은 `kind` 의 값으로 `IpAddrKind::V4` 을 갖고 연관된 주소 데이터로 `127.0.0.1`
-를 갖습니다. 두번째 `loopback` 은 `IpAddrKind` 의 다른 variant 인 `V6` 을 값으로 갖고,
-연관된 주소로 `::1` 를 갖습니다. `kind` 와 `address` 의 값을 함께 사용하기 위해 구조체를 사용
-했습니다. 그렇게 함으로써 variant 가 연관된 값을 갖게 되었습니다.
+여기서 두 개의 필드를 갖는 `IpAddr` 를 정의 했습니다: `IpAddrKind` 타입(이전에 
+정의한 열거형)인 `kind` 필드와 `String` 타입인 `address` 필드 입니다. 구조체에 
+대한 두 개의 인스턴스가 있습니다.
+첫번째 `home` 은 `kind` 의 값으로 `IpAddrKind::V4` 을 갖고 연관된 주소 데이터로
+`127.0.0.1` 를 갖습니다. 두번째 `loopback` 은 `IpAddrKind` 의 다른 variant 인 
+`V6` 을 값으로 갖고, 연관된 주소로 `::1` 를 갖습니다. `kind` 와 `address` 의 
+값을 함께 사용하기 위해 구조체를 사용 했습니다. 그렇게 함으로써 variant 가 
+연관된 값을 갖게 되었습니다.
 
-각 열거형 variant 에 데이터를 직접 넣는 방식을 사용해서 열거형을 구조체의 일부로 사용하는 방식 보다 
-더 간결하게 동일한 개념을 표현할 수 있습니다. `IpAddr` 얼거형의 새로운 정의에서는 두 개의 `V4` 와
-`V6` variant 는 연관된 `String` 타입의 값을 갖게 됩니다:
+각 열거형 variant 에 데이터를 직접 넣는 방식을 사용해서 열거형을 구조체의 일부로
+사용하는 방식 보다 더 간결하게 동일한 개념을 표현할 수 있습니다. 
+`IpAddr` 얼거형의 새로운 정의에서는 두 개의 `V4` 와 `V6` variant 는 연관된 
+`String` 타입의 값을 갖게 됩니다:
 
 ```rust
 enum IpAddr {
@@ -120,15 +124,14 @@ let home = IpAddr::V4(String::from("127.0.0.1"));
 let loopback = IpAddr::V6(String::from("::1"));
 ```
 
-We attach data to each variant of the enum directly, so there is no need for an
-extra struct.
+열거형의 각 variant 에 직접 데이터를 붙임으로써, 구조체를 사용할 필요가 없어
+졌습니다.
 
-There’s another advantage to using an enum rather than a struct: each variant
-can have different types and amounts of associated data. Version four type IP
-addresses will always have four numeric components that will have values
-between 0 and 255. If we wanted to store `V4` addresses as four `u8` values but
-still express `V6` addresses as one `String` value, we wouldn’t be able to with
-a struct. Enums handle this case with ease:
+구조체 보다 열거형을 사용할 때 다른 장점이 있습니다: 각 variant 는 다른 타입과 
+다른 양의 연관된 데이터를 갖을 수 있습니다. 버전 4 타입의 IP 주소는 항상 0 ~ 255
+사이의 숫자 4개로 된 구성요소를 갖게 될 것 입니다. `V4` 주소에 4개의 `u8` 값을
+저장하고, `V6` 주소는 하나의 `String` 값을 갖도록 표현할 수 있습니다, 구조체로는
+이렇게 할 수 없습니다. 열거형인 이런 경우를 쉽게 처리합니다:
 
 ```rust
 enum IpAddr {
@@ -141,14 +144,13 @@ let home = IpAddr::V4(127, 0, 0, 1);
 let loopback = IpAddr::V6(String::from("::1"));
 ```
 
-We’ve shown several different possibilities that we could define in our code
-for storing IP addresses of the two different varieties using an enum. However,
-as it turns out, wanting to store IP addresses and encode which kind they are
-is so common that [the standard library has a definition we can
-use!][IpAddr]<!-- ignore --> Let’s look at how the standard library defines
-`IpAddr`: it has the exact enum and variants that we’ve defined and used, but
-it embeds the address data inside the variants in the form of two different
-structs, which are defined differently for each variant:
+두가지 다른 종류의 IP 주소를 저장하기 위해 코드상에서 열거형을 정의하는 몇가지
+방법을 살펴 봤습니다. 그러나, 누구나 알듯이 IP 주소와 그 종류를 저장하는 것은
+흔하기 때문에, [표준 라이브러리에 사용할 수 있는 정의가 있습니다!][IpAddr]
+<!-- ignore --> 표준 라이브러리에서 `IpAddr` 를 어떻게 정의하고 있는지 살펴봅시
+다. 위에서 정의하고 사용했던 것과 동일한 열거형과 variant 를 갖고 있지만,
+variant 에 포함된 주소 데이터는 두 가지 다른 구조체로 되어 있으며, 각 variant 
+마다 다르게 정의하고 있습니다:
 
 [IpAddr]: ../../std/net/enum.IpAddr.html
 
