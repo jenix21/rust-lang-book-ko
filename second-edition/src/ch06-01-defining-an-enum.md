@@ -174,13 +174,12 @@ enum IpAddr {
 또한 표준 라이브러리 타입들은 어떤 경우에는 해결책으로 생각한 것보다 훨씬 더
 복잡하지 않습니다.
 
-Note that even though the standard library contains a definition for `IpAddr`,
-we can still create and use our own definition without conflict because we
-haven’t brought the standard library’s definition into our scope. We’ll talk
-more about importing types in Chapter 7.
+현재 스코프에 표준 라이브러리를 가져오지 않았기 때문에, 표준 라이브러리에 
+`IpAddr` 정의가 있더라도, 동일한 이름의 타입을 만들고 사용할 수 있습니다.
+타입을 가져오는 것에 대해서는 7장에서 더 살펴볼 것 입니다.
 
-Let’s look at another example of an enum in Listing 6-2: this one has a wide
-variety of types embedded in its variants:
+Listing 6-2 에 있는 열거형의 다른 예제를 살펴 봅시다: 이 예제에서는 각 variants
+에 다양한 유형의 타입들이 포함되어 있습니다:
 
 ```rust
 enum Message {
@@ -191,8 +190,8 @@ enum Message {
 }
 ```
 
-<span class="caption">Listing 6-2: A `Message` enum whose variants each store
-different amounts and types of values</span>
+<span class="caption">Listing 6-2: `Message` 열거형은 각 variants 가 다른 타입과
+다른 양의 값을 저장함.</span>
 
 This enum has four variants with different types:
 
