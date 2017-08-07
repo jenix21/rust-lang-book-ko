@@ -193,12 +193,12 @@ enum Message {
 <span class="caption">Listing 6-2: `Message` 열거형은 각 variants 가 다른 타입과
 다른 양의 값을 저장함.</span>
 
-This enum has four variants with different types:
+이 열거형에는 다른 데이터 타입을 갖는 네 개의 variants 가 있습니다:
 
-* `Quit` has no data associated with it at all.
-* `Move` includes an anonymous struct inside it.
-* `Write` includes a single `String`.
-* `ChangeColor` includes three `i32`s.
+* `Quit` 은 연관된 데이터가 전혀 없습니다.
+* `Move` 은 익명 구조체를 포함 합니다.
+* `Write` 은 하나의 `String` 을 포함 합니다.
+* `ChangeColor` 는 세 개의 `i32` 을 포함 합니다.
 
 Defining an enum with variants like the ones in Listing 6-2 is similar to
 defining different kinds of struct definitions except the enum doesn’t use the
