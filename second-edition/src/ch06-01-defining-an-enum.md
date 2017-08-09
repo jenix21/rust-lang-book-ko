@@ -200,30 +200,29 @@ enum Message {
 * `Write` 은 하나의 `String` 을 포함 합니다.
 * `ChangeColor` 는 세 개의 `i32` 을 포함 합니다.
 
-Defining an enum with variants like the ones in Listing 6-2 is similar to
-defining different kinds of struct definitions except the enum doesn’t use the
-`struct` keyword and all the variants are grouped together under the `Message`
-type. The following structs could hold the same data that the preceding enum
-variants hold:
+Listing 6-2 에서 처럼 variants 로 열거형을 정의하는 것은 다른 종류의 구조체들을
+정의하는 것과 비슷합니다. 열거형과 다른 점은 `struct` 키워드를 사용하지 않는
+다는 것과 모든 variants 가 `Message` 타입으로 그룹화 된다는 것 입니다.
+아래 구조체들은 이전 열거형의 variants 가 갖는 것과 동일한 데이터를 포함할 수
+있습니다:
 
 ```rust
-struct QuitMessage; // unit struct
+struct QuitMessage; // 유닛 구조체
 struct MoveMessage {
     x: i32,
     y: i32,
 }
-struct WriteMessage(String); // tuple struct
-struct ChangeColorMessage(i32, i32, i32); // tuple struct
+struct WriteMessage(String); // 튜플 구조체
+struct ChangeColorMessage(i32, i32, i32); // 튜플 구조체
 ```
 
-But if we used the different structs, which each have their own type, we
-wouldn’t be able to as easily define a function that could take any of these
-kinds of messages as we could with the `Message` enum defined in Listing 6-2,
-which is a single type.
+각기 다른 타입을 갖는 여러 개의 구조체를 사용한다면, 이 메세지 중 어떤 한가지를
+인자로 받는 함수를 정의하기 힘들 것 입니다. Listing 6-2 에 정의한 `Message`
+열거형은 하나의 타입으로 이것이 가능 했습니다.
 
-There is one more similarity between enums and structs: just as we’re able to
-define methods on structs using `impl`, we’re also able to define methods on
-enums. Here’s a method named `call` that we could define on our `Message` enum:
+열거형과 구조체는 한가지 더 유사한 점이 있습니다: 구조체에 `impl` 을 사용해서
+메서드를 정의한 것 처럼, 열거형에도 정의할 수 있습니다. 여기 `Message` 열거형에
+에 정의한 `call` 이라는 메서드가 있습니다:
 
 ```rust
 # enum Message {
@@ -235,7 +234,7 @@ enums. Here’s a method named `call` that we could define on our `Message` enum
 #
 impl Message {
     fn call(&self) {
-        // method body would be defined here
+        // 메서드 내용은 여기 정의할 수 있습니다.
     }
 }
 
@@ -243,15 +242,14 @@ let m = Message::Write(String::from("hello"));
 m.call();
 ```
 
-The body of the method would use `self` to get the value that we called the
-method on. In this example, we’ve created a variable `m` that has the value
-`Message::Write("hello")`, and that is what `self` will be in the body of the
-`call` method when `m.call()` runs.
+열거형의 값을 가져오기 위해 메서드 안에서 `self` 를 사용할 것 입니다.
+이 에제에서 생성한 변수 `m` 은 `Message::Write("hello")` 값을 갖게 되고,
+이 값은  `m.call()` 이 실행될 때, `call` 메서드 안에서 `self` 가 될 것입니다.
 
-Let’s look at another enum in the standard library that is very common and
-useful: `Option`.
+표준 라이브러리에 있는 매우 흔하게 사용하고 유용한 열거형을 살펴 봅시다:
+`Option`.
 
-### The `Option` Enum and Its Advantages Over Null Values
+### `Option` 열거형과 Null 값 보다 좋은 점들.
 
 In the previous section, we looked at how the `IpAddr` enum let us use Rust’s
 type system to encode more information than just the data into our program.
