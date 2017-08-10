@@ -251,8 +251,9 @@ m.call();
 
 ### `Option` 열거형과 Null 값 보다 좋은 점들.
 
-In the previous section, we looked at how the `IpAddr` enum let us use Rust’s
-type system to encode more information than just the data into our program.
+이전 절에서, `IpAddr` 열거형을 사용하여 작성한 프로그램에서는 러스트 타입 시스템을 사용하여
+데이터 뿐만 아니라 더 많은 정보를 담을 수 있는 방법을 살펴 보았습니다.
+
 This section explores a case study of `Option`, which is another enum defined
 by the standard library. The `Option` type is used in many places because it
 encodes the very common scenario in which a value could be something or it
