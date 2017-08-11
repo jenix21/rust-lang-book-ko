@@ -251,33 +251,33 @@ m.call();
 
 ### `Option` 열거형과 Null 값 보다 좋은 점들.
 
-이전 절에서, `IpAddr` 열거형을 사용하여 작성한 프로그램에서는 러스트 타입 시스템을 사용하여
-데이터 뿐만 아니라 더 많은 정보를 담을 수 있는 방법을 살펴 보았습니다.
+이전 절에서, `IpAddr` 열거형을 사용하여 작성한 프로그램에서는 러스트 타입 
+시스템을 사용하여 데이터 뿐만 아니라 더 많은 정보를 담을 수 있는 방법을 살펴
+보았습니다.
 
-This section explores a case study of `Option`, which is another enum defined
-by the standard library. The `Option` type is used in many places because it
-encodes the very common scenario in which a value could be something or it
-could be nothing. Expressing this concept in terms of the type system means the
-compiler can check that you’ve handled all the cases you should be handling,
-which can prevent bugs that are extremely common in other programming languages.
+이번 절에서는 표준 라이브러리에서 열거형으로 정의된 또다른 타입인 `Option` 에 
+대한 사용예를 살펴볼 것 입니다. `Option` 타입은 많이 사용되는데, 값이 있거나
+없을 수도 있는 아주 흔한 상황을 나타내기 때문 입니다. 이 개념을 타입 시스템의
+관점으로 표현하자면, 컴파일러가 발생할 수 있는 모든 경우를 처리했는지 체크 할 수
+있습니다. 이렇게 함으로써 버그를 방지할 수 있고, 이것은 다른 프로그래밍 언어에서
+매우 흔합니다.
 
-Programming language design is often thought of in terms of which features you
-include, but the features you exclude are important too. Rust doesn’t have the
-null feature that many other languages have. *Null* is a value that means there
-is no value there. In languages with null, variables can always be in one of
-two states: null or not-null.
+프로그래밍 언어 디자인은 가끔 어떤 특성들이 포함되었는지의 관점에서 생각되기도
+하지만, 포함되지 않은 특성들도 역시 중요 합니다. 러스트는 다른 언어에 있는지
+null 특성이 없습니다. *Null* 은 값이 없다는 것을 표현하는 하나의 값 입니다.
+null 을 허용하는 언어에서는, 변수는 항상 두 상태중 하나가 될 수 있습니다:
+null 혹은 null 이 아님.
 
-In “Null References: The Billion Dollar Mistake,” Tony Hoare, the inventor of
-null, has this to say:
+null 을 고안한 Tony Hoare 의 "Null 참조 : 10 억 달러의 실수" 에서 다음과 같이
+말합니다:
 
-> I call it my billion-dollar mistake. At that time, I was designing the first
-> comprehensive type system for references in an object-oriented language. My
-> goal was to ensure that all use of references should be absolutely safe, with
-> checking performed automatically by the compiler. But I couldn't resist the
-> temptation to put in a null reference, simply because it was so easy to
-> implement. This has led to innumerable errors, vulnerabilities, and system
-> crashes, which have probably caused a billion dollars of pain and damage in
-> the last forty years.
+> 나는 그것을 나의 10억 달러의 실수라고 생각한다. 그 당시 객체지향 언어에서
+> 처음 참조를 위한 포괄적인 타입 시스템을 디자인 하고 있었다. 내 목표는
+> 컴파일러에 의해 자동으로 수행되는 체크를 통해 모든 참조의 사용은 절대적으로 
+> 안전하다는 것을 확인하는 것이었다. 그러나 null 참조를 넣고 싶은 유혹을 참을
+> 수 없었다. 간단한 이유는 구현이 쉽다는 것이었다. 이것은 수없이 많은 오류와
+> 취약점들, 시스템 종료를 유발 했고, 지난 40년간 10억 달러의 고통과
+> 손실을 초래했을 수도 있습니다.
 
 The problem with null values is that if you try to actually use a value that’s
 null as if it is a not-null value, you’ll get an error of some kind. Because
