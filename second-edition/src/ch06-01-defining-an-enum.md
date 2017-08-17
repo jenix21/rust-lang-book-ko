@@ -279,19 +279,16 @@ null 을 고안한 Tony Hoare 의 "Null 참조 : 10 억 달러의 실수" 에서
 > 취약점들, 시스템 종료를 유발 했고, 지난 40년간 10억 달러의 고통과
 > 손실을 초래했을 수도 있습니다.
 
-The problem with null values is that if you try to actually use a value that’s
-null as if it is a not-null value, you’ll get an error of some kind. Because
-this null or not-null property is pervasive, it’s extremely easy to make this
-kind of error.
+null 값으로 발생하는 문제는, null 값을 null 이 아닌 값 처럼 사용하려고 할 때 여러 종류의 오류가
+발생할 수 있다는 것입니다. null 아니 null 이 아닌 속성은 어디에나 있을 수 있고, 너무나도 쉽게 이런
+종류의 오류를 만들어 냅니다.
 
-However, the concept that null is trying to express is still a useful one: a
-null is a value that is currently invalid or absent for some reason.
+그러나, null 이 표현하려고 하는 것은 아직까지도 유용합니다: null 은 현재 어떤 이유로 유효하지 않고, 
+존재하지 않는 하나의 값 입니다.
 
-The problem isn’t with the actual concept but with the particular
-implementation. As such, Rust does not have nulls, but it does have an enum
-that can encode the concept of a value being present or absent. This enum is
-`Option<T>`, and it is [defined by the standard library][option]<!-- ignore -->
-as follows:
+문제는 실제 개념에 있기 보다, 특정 구현에 있습니다. 이와 같이 러스트에는 null 이 없지만, 값의 존재
+혹은 부재의 개념을 표현할 수 있는 열거형이 있습니다. 이 열거형은 `Option<T>` 이며, 다음과 같이
+[표준 라이브러리에 정의되어][option]<!-- ignore --> 있습니다:
 
 [option]: ../../std/option/enum.Option.html
 
@@ -302,17 +299,17 @@ enum Option<T> {
 }
 ```
 
-The `Option<T>` enum is so useful that it’s even included in the prelude; you
-don’t need to import it explicitly.  In addition, so are its variants: you can
-use `Some` and `None` directly without prefixing them with `Option::`.
-`Option<T>` is still just a regular enum, and `Some(T)` and `None` are still
-variants of type `Option<T>`.
+`Option<T>` 열거형은 매우 유용하며 기본적으로 포함되어 있기 때문에, 명시적으로 가져오지 않아도
+사용할 수 있습니다. 또한 variants 도 마찬가지 입니다: `Option::` 를 앞에 붙이지 않고,
+`Some` 과 `None` 을 바로 사용할 수 있습니다.
+`Option<T>` 는 여전히 일반적인 열거형이고, `Some(T)` 과 `None` 도 여전히 `Option<T>` 의
+variants 입니다.
 
-The `<T>` syntax is a feature of Rust we haven’t talked about yet. It’s a
-generic type parameter, and we’ll cover generics in more detail in Chapter 10.
-For now, all you need to know is that `<T>` means the `Some` variant of the
-`Option` enum can hold one piece of data of any type. Here are some examples of
-using `Option` values to hold number types and string types:
+`<T>` 는 러스트의 문법이며 아직 다루지 않았습니다. 제너릭 타입 파라미터 이며, 제너릭에 대해서는
+10 장에서 더 자세히 다룰 것 입니다.
+지금은 단지 `<T>` 가 `Option` 열거형의 `Some` variant 가 어떤 타입의 데이터라고 갖을 수 있다는
+것을 의미한다는 것을 알고 있으면 됩니다. 여기 숫자 타입과 문자열 타입을 갖는 `Option` 값에 대한
+예들이 있습니다:
 
 ```rust
 let some_number = Some(5);
@@ -321,14 +318,16 @@ let some_string = Some("a string");
 let absent_number: Option<i32> = None;
 ```
 
-If we use `None` rather than `Some`, we need to tell Rust what type of
-`Option<T>` we have, because the compiler can't infer the type that the `Some`
-variant will hold by looking only at a `None` value.
+`Some` 이 아닌 `None` 을 사용한다면, `Option<T>` 이 어떤 타입을 갖을지 러스트에게 알려줄 필요가
+있습니다. 컴파일러는 `None` 만 보고는 `Some` variant 가 어떤 타입인지 추론할 수 없습니다.
 
-When we have a `Some` value, we know that a value is present, and the value is
-held within the `Some`. When we have a `None` value, in some sense, it means
-the same thing as null: we don’t have a valid value. So why is having
-`Option<T>` any better than having null?
+`Some` 값을 얻게 되면, 값이 있다는 것과 `Some` 이 갖고 있는 값에 대해 알 수 있습니다.
+`None` 값을 사용하면, 어떤 면에서는 null 과 같은 의미를 갖게 됩니다: 유효한 값을 갖지 않습니다.
+그렇다면 왜 `Option<T>` 가 null 을 갖는 것 보다 나을까요?
+
+간단하게 말하면, `Option<T>` 와 `T` (`T` 는 어떤 타입이던 될 수 있음)는 다른 타입이며,
+컴파일러는 `Option<T>` 값을 명확하게 유효한 값 처럼 사용하지 못하도록 합니다. 예를 들면,
+아래 코드는 `Option<i8>` 에 `i8` 을 더하려고 하기 때문에 컴파일 되지 않습니다:
 
 In short, because `Option<T>` and `T` (where `T` can be any type) are different
 types, the compiler won’t let us use an `Option<T>` value as if it was
@@ -342,7 +341,7 @@ let y: Option<i8> = Some(5);
 let sum = x + y;
 ```
 
-If we run this code, we get an error message like this:
+이 코드를 실행하면, 아래와 같은 에러 메세지가 출력 됩니다:
 
 ```text
 error[E0277]: the trait bound `i8: std::ops::Add<std::option::Option<i8>>` is
@@ -354,19 +353,19 @@ not satisfied
   |
 ```
 
-Intense! In effect, this error message means that Rust doesn’t understand how
-to add an `Option<i8>` and an `i8`, because they’re different types. When we
-have a value of a type like `i8` in Rust, the compiler will ensure that we
-always have a valid value. We can proceed confidently without having to check
-for null before using that value. Only when we have an `Option<i8>` (or
-whatever type of value we’re working with) do we have to worry about possibly
-not having a value, and the compiler will make sure we handle that case before
-using the value.
+주목하세요! 실제로, 이 에러 메세지는 러스트가 `Option<i8>` 와 `i8` 를 어떻게 더해야 하는지
+모른다는 것을 의미 합니다, 둘은 다른 타입이기 때문 입니다. 러스트에서 `i8` 과 같은 타입의 값을
+갖을 때, 컴파일러는 항상 유효한 값을 갖고 있다는 것을 보장할 것 입니다. 값을 사용하기 전에 null 인지
+확인할 필요도 없이 자신있게 사용할 수 있습니다. 단지 `Option<i8>` 을 사용할 경우엔 (혹은 어떤 타입
+이건 간에) 값이 있을지 없을지에 대해 걱정할 필요가 있으며, 컴파일러는 값을 사용하기 전에 이런 케이스가
+처리되었는지 확인해 줄 것입니다.
 
-In other words, you have to convert an `Option<T>` to a `T` before you can
-perform `T` operations with it. Generally, this helps catch one of the most
-common issues with null: assuming that something isn’t null when it actually
-is.
+다르게 얘기 하자면, `T` 에 대한 연산을 수행하기 전에 `Option<T>` 를 `T` 로 변환해야 합니다.
+일반적으로, 이런 방식은 null 과 관련된 가장 흔한 이슈 중 하나를 발견하는데 도움을 줍니다: 실제로
+null 일 때, null 이 아니라고 가정하는 경우 입니다.
+
+null 이 아닌 값을 갖는 다는 가정을 놓치는 경우에 대해 걱절할 필요가 없게되면, 코드에 더 확신을
+갖게 됩니다. 
 
 Not having to worry about missing an assumption of having a not-null value
 helps you to be more confident in your code. In order to have a value that can
