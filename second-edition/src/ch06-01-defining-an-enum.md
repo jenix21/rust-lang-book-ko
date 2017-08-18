@@ -353,42 +353,39 @@ not satisfied
   |
 ```
 
-주목하세요! 실제로, 이 에러 메세지는 러스트가 `Option<i8>` 와 `i8` 를 어떻게 더해야 하는지
-모른다는 것을 의미 합니다, 둘은 다른 타입이기 때문 입니다. 러스트에서 `i8` 과 같은 타입의 값을
-갖을 때, 컴파일러는 항상 유효한 값을 갖고 있다는 것을 보장할 것 입니다. 값을 사용하기 전에 null 인지
-확인할 필요도 없이 자신있게 사용할 수 있습니다. 단지 `Option<i8>` 을 사용할 경우엔 (혹은 어떤 타입
-이건 간에) 값이 있을지 없을지에 대해 걱정할 필요가 있으며, 컴파일러는 값을 사용하기 전에 이런 케이스가
-처리되었는지 확인해 줄 것입니다.
+주목하세요! 실제로, 이 에러 메세지는 러스트가 `Option<i8>` 와 `i8` 를 어떻게
+더해야 하는지 모른다는 것을 의미 합니다, 둘은 다른 타입이기 때문 입니다. 
+러스트에서 `i8` 과 같은 타입의 값을 갖을 때, 컴파일러는 항상 유효한 값을 갖고
+있다는 것을 보장할 것 입니다. 값을 사용하기 전에 null 인지 확인할 필요도 없이 
+자신있게 사용할 수 있습니다. 단지 `Option<i8>` 을 사용할 경우엔 (혹은 어떤 타입
+이건 간에) 값이 있을지 없을지에 대해 걱정할 필요가 있으며, 컴파일러는 값을
+사용하기 전에 이런 케이스가 처리되었는지 확인해 줄 것입니다.
 
-다르게 얘기 하자면, `T` 에 대한 연산을 수행하기 전에 `Option<T>` 를 `T` 로 변환해야 합니다.
-일반적으로, 이런 방식은 null 과 관련된 가장 흔한 이슈 중 하나를 발견하는데 도움을 줍니다: 실제로
-null 일 때, null 이 아니라고 가정하는 경우 입니다.
+다르게 얘기 하자면, `T` 에 대한 연산을 수행하기 전에 `Option<T>` 를 `T` 로
+변환해야 합니다. 일반적으로, 이런 방식은 null 과 관련된 가장 흔한 이슈 중 하나를
+발견하는데 도움을 줍니다: 실제로 null 일 때, null 이 아니라고 가정하는 경우
+입니다.
 
-null 이 아닌 값을 갖는 다는 가정을 놓치는 경우에 대해 걱절할 필요가 없게되면, 코드에 더 확신을
-갖게 됩니다. 
+null 이 아닌 값을 갖는 다는 가정을 놓치는 경우에 대해 걱절할 필요가 없게되면,
+코드에 더 확신을 갖게 됩니다. null 일 수 있는 값을 사용하기 위해서,
+명시적으로 값의 타입을 `Option<T>` 로 만들어 줘야 합니다. 그다음엔 값을 사용할
+때 명시적으로 null 인 경우를 처리해야 합니다. 값의 타입이 `Option<T>` 가 아닌 
+모든 곳은 값이 null 아 아니라고 안전하게 가정 *할 수 있습니다*.
+이것은 null 문제를 제한하고 러스트 코드의 안정성을 높이기 위한 러스트의 의도된
+디자인 결정사항 입니다.
 
-Not having to worry about missing an assumption of having a not-null value
-helps you to be more confident in your code. In order to have a value that can
-possibly be null, you must explicitly opt in by making the type of that value
-`Option<T>`. Then, when you use that value, you are required to explicitly
-handle the case when the value is null. Everywhere that a value has a type that
-isn’t an `Option<T>`, you *can* safely assume that the value isn’t null. This
-was a deliberate design decision for Rust to limit null’s pervasiveness and
-increase the safety of Rust code.
-
-So, how do you get the `T` value out of a `Some` variant when you have a value
-of type `Option<T>` so you can use that value? The `Option<T>` enum has a large
-number of methods that are useful in a variety of situations; you can check
-them out in [its documentation][docs]<!-- ignore -->. Becoming familiar with
-the methods on `Option<T>` will be extremely useful in your journey with Rust.
+그럼 `Option<T>` 타입인 값을 사용할 때, `Some` variant 에서 `T` 값을 어떻게
+가져와서 사용할 수 있을까요? `Option<T>` 열거형에서 다양한 상황에서 유용하게
+사용할 수 있는 많은 메소드들이 있습니다; [문서에서][docs]<!-- ignore --> 확인할
+수 있습니다. `Option<T>` 의 메소드들에 익숙해 지는 것은 러스트를 사용하는데
+매우 유용할 것 입니다.
 
 [docs]: ../../std/option/enum.Option.html
 
-In general, in order to use an `Option<T>` value, we want to have code that
-will handle each variant. We want some code that will run only when we have a
-`Some(T)` value, and this code is allowed to use the inner `T`. We want some
-other code to run if we have a `None` value, and that code doesn’t have a `T`
-value available. The `match` expression is a control flow construct that does
-just this when used with enums: it will run different code depending on which
-variant of the enum it has, and that code can use the data inside the matching
-value.
+일반적으로, `Option<T>` 값을 사용하기 위해서는 각 variant 를 처리할 코드가 필요
+할 것입니다. `Some(T)` 값일 경우만 실행되는 코드가 필요하고, 이 코드는 안에있는
+`T` 를 사용할 수 있습니다. 다른 코드에서는 `None` 값일 때 실행되는 코드가 필요가
+하기도 하며, 이 코드에서는 사용할 수 있는 `T` 값이 없습니다.
+`match` 표현식은 제어 흐름을 위한 구분으로, 열거형과 함께 사용하면 이런 일들을
+할 수 있습니다: 열거형이 갖는 variant 에 따라 다른 코드를 실행할 것이고, 그 코드
+는 매칭된 값에 있는 데이터를 사용할 수 있습니다.
