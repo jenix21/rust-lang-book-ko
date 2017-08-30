@@ -1,18 +1,17 @@
-## The `match` Control Flow Operator
+## `match` 흐름제어 연산자
 
-Rust has an extremely powerful control-flow operator called `match` that allows
-us to compare a value against a series of patterns and then execute code based
-on which pattern matches. Patterns can be made up of literal values, variable
-names, wildcards, and many other things; Chapter 18 will cover all the
-different kinds of patterns and what they do. The power of `match` comes from
-the expressiveness of the patterns and the compiler checks that make sure all
-possible cases are handled.
+러스트에 있는 `match` 라고하는 정말 강력한 흐름제어 연산자는 일련의 패턴에 대해
+값을 비교하고 매칭되는 패턴에 대한 코드를 실행하도록 해줍니다. 패턴을 리터럴 값,
+변수 이름, 와일드 카드와 다른 많은 것들로 만들 수 있습니다; 챕터 18에서 모든 다
+른 종류의 패턴과 이 패턴들이 무엇을 하는지 다룰 것 입니다. `match` 의 힘은
+패턴의 표현력과 모든 가능한 경우들에 대해 처리했는지 컴파일러 체크가 보장해 준다
+는 것 입니다.
 
-Think of a `match` expression kind of like a coin sorting machine: coins slide
-down a track with variously sized holes along it, and each coin falls through
-the first hole it encounters that it fits into. In the same way, values go
-through each pattern in a `match`, and at the first pattern the value “fits,”
-the value will fall into the associated code block to be used during execution.
+`match` 표현식은 동전 분류기 처럼 생각해 볼 수 있습니다: 동전은 트랙을 따라
+미끄러져 내려가는데 다양한 크기의 구멍들이 있고, 동전 크기에 맞는 첫번째 구명으
+로 떨어지게 됩니다. 같은 방식으로, 값은 `match` 표현식의 각 매치들을 지나가고,
+그 값에 "맞는" 첫번째 패턴에서, 그 값은 연관된 코드 블럭으로 떨어져서 실행하는
+동안 사용 됩니다.
 
 Because we just mentioned coins, let’s use them as an example using `match`! We
 can write a function that can take an unknown United States coin and, in a
